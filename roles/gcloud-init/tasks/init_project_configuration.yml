@@ -1,0 +1,47 @@
+---
+- command: gcloud config configurations create {{ project_id }}
+  when: existing_configuration is not defined
+
+- command: gcloud config configurations activate {{ project_id }}
+  when: existing_configuration is defined
+
+- name: describe configuration
+  command: gcloud config configurations describe {{ project_id }}
+  register: command_result
+
+- set_fact:
+    configuration: "{{ command_result.stdout | from_yaml }}"
+
+- debug: var=configuration
+
+- command: gcloud config set project {{ project_id }}
+  when: > 
+    configuration.properties.core is not defined or
+    configuration.properties.core.project is not defined
+
+- fail:
+    msg: "Configuration '{{ project_id }}' exists, but initialized project ID doesn't match."
+  when: 
+    - configuration.properties.core is defined
+    - configuration.properties.core.project != "{{ project_id }}"
+
+- fail:
+    msg: "Please run 'gcloud auth login' and then re-run the playbook."
+  when:
+    - env == 'local'
+    - configuration.properties.core.account is not defined
+
+- command: gcloud config set project {{ project_id }}
+  when: 
+    - configuration.properties.core.project is not defined
+
+- name: discover project
+  command: gcloud projects describe {{ project_id }}
+  register: command_result
+  ignore_errors: yes
+
+- name: create project
+  command: >
+    gcloud projects create {{ project_id }} \
+      --labels env={{ env }}
+  when: command_result.rc > 0

@@ -1,0 +1,33 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: False
+
+  vars:
+    key_file_path: ./keys/sa.json
+
+  vars_prompt:
+    - name: project_id
+      prompt: "which project ID?"
+
+    - name: env
+      prompt: "which environment?"
+      default: "local"
+
+  pre_tasks:
+    - assert:
+        that: 
+          - project_id is match("^[a-z][a-z0-9-]{5,29}$")
+        msg: >
+          "
+          Project IDs must start with a lowercase letter and
+          can have lowercase ASCII letters, digits or hyphens,
+          must be between 6 and 30 characters.
+          "
+  tasks:
+    - shell: pip install -r requirements.txt --user
+
+    - include_role:
+        name: gcloud-init
+
+    

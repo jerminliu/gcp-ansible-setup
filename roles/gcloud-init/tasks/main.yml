@@ -1,0 +1,53 @@
+---
+- pause:
+    prompt: "Google Cloud project id"
+  register: project_id_prompt
+  when: 
+    - env == 'local'
+    - project_id is not defined
+
+- set_fact:
+    project_id: "{{ project_id_prompt.user_input }}"
+  when: 
+    - env == 'local'
+    - project_id is not defined
+
+- fail: 
+    msg: "Required parameter 'project_id' is not set."
+  when: project_id is not defined
+
+- name: list configurations
+  command: gcloud config configurations list
+  register: configurations
+
+- name: check existing configuration for project
+  set_fact:
+    existing_configuration: "{{ item }}"
+  loop: "{{ configurations.stdout_lines }}"
+  when: item.split(' ')[0] == project_id
+
+- debug: var=existing_configuration
+
+- include_tasks: init_project_configuration.yml
+
+- name: check service account key file exists
+  stat:
+    path: "{{ key_file_path }}"
+  register: key_file_result
+
+- include_tasks: create_sa.yml
+  when: 
+    - env == 'local'
+    - not key_file_result.stat.exists
+
+- fail: 
+    msg: "When executing on the non-local environment, key file must be provided. Key file is not found at '{{ key_file_path }}'."
+  when: 
+    - env != 'local'
+    - not key_file_result.stat.exists
+
+
+
+# - name: initialize the Google Cloud SDK using service account
+#   command: gcloud init --console-only
+#   when: local
