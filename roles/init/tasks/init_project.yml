@@ -1,0 +1,48 @@
+---
+- block:
+  - name: list projects
+    command: gcloud projects list
+    register: command_result
+
+  - set_fact:
+      project_ids: []
+
+  - set_fact:
+      project_ids: "{{ project_ids }} + [ '{{ item.split(' ')[0] }}' ]"
+    loop: "{{ command_result.stdout_lines }}"
+    when: not item.startswith('PROJECT_ID')
+
+  - debug: var=project_ids
+    when: project_id is not defined
+
+  - pause:
+      prompt: "existing or new project id"
+    when: project_id is not defined
+    register: project_id_prompt
+
+  - set_fact: 
+      project_id: "{{ project_id_prompt.user_input }}"
+    when: project_id is not defined
+  
+  - assert:
+      that:
+        - project_id is match("^[a-z][a-z0-9-]{5,29}$")
+      msg: >
+        "
+        Project IDs must start with a lowercase letter and
+        can have lowercase ASCII letters, digits or hyphens,
+        must be between 6 and 30 characters.
+        "
+
+  - name: discover project
+    command: gcloud projects describe {{ project_id }}
+    register: command_result
+    ignore_errors: yes
+
+  - include_tasks: create_project.yml
+    when: command_result.rc > 0
+
+  - name: update configuration with active project
+    command: gcloud config set project {{ project_id }}
+
+  tags: init

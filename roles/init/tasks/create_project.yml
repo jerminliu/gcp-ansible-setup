@@ -1,0 +1,45 @@
+---
+- block:
+
+  - pause:
+      prompt: "(optional) project display name"
+    register: project_name_prompt
+    when: project_name is not defined
+  
+  - set_fact:
+      project_name: "{{ project_name_prompt.user_input }}"
+    when: project_name is not defined
+
+  - pause:
+      prompt: "(optional) list of labels to add (e.g. KEY=VALUE,...)"
+    register: project_labels_prompt
+    when: project_labels is not defined
+  
+  - set_fact:
+      project_labels: "{{ project_labels_prompt.user_input }}"
+    when: project_labels is not defined
+
+  # todo: list existing organizations
+  - pause:
+      prompt: "(optional) organization ID"
+    register: organization_id_prompt
+    when: organization_id is not defined
+
+  - set_fact:
+      organization_id: "{{ organization_id_prompt.user_input }}"
+    when: organization_id is not defined
+
+  - pause:
+      prompt: "(optional) project folder"
+    register: project_folder_prompt
+    when: project_folder is not defined
+
+  - set_fact:
+      project_folder: "{{ project_folder_prompt.user_input }}"
+    when: project_folder is not defined
+
+  - name: create project
+    command: "{{ lookup('template', 'create_project_command.j2') }}"
+    register: command_result
+
+  tags: init

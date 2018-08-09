@@ -26,15 +26,14 @@ different account:
 gcloud config set account ACCOUNT
 ```
 
-Create or find existing service account to fetch its JSON key file:
+Initialize a connection to the account which will persist service account JSON key file for further operations.
 
 ```sh
-ansible-playbook create-sa.yml
+ansible-playbook playbook.yml --tags 'init'
 ```
 
-## Set up an environment
-
+Manage project
 
 ```sh
-ansible-playbook set-environment.yml
+ansible-playbook playbook.yml --tags 'create_project'
 ```

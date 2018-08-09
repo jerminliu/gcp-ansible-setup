@@ -1,0 +1,13 @@
+gcloud projects create {{ project_id }}
+{% if project_name | length > 0 %}
+  --name {{ project_name }}
+{% endif %}
+{% if project_labels | length > 0 %}
+  --labels {{ project_labels }}
+{% endif %}
+{% if organization_id | length > 0 %}
+  --organization {{ organization_id }}
+{% endif %}
+{% if project_folder | length > 0 %}
+  --folder {{ project_folder }}
+{% endif %}
