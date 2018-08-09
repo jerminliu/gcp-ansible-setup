@@ -10,10 +10,6 @@
     - name: project_id
       prompt: "which project ID?"
 
-    - name: env
-      prompt: "which environment?"
-      default: "local"
-
   pre_tasks:
     - assert:
         that: 
@@ -28,6 +24,5 @@
     - shell: pip install -r requirements.txt --user
 
     - include_role:
-        name: gcloud-init
-
-    
+        name: common
+        tasks_from: ensure_key_file

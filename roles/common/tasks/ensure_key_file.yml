@@ -1,0 +1,9 @@
+---
+- name: check service account key file exists
+  stat:
+    path: "{{ key_file_path }}"
+  register: key_file_result
+
+- fail: 
+    msg: "Key file is not found at '{{ key_file_path }}'."
+  when: not key_file_result.stat.exists
