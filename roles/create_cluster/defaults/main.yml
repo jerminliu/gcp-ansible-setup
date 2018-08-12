@@ -1,0 +1,70 @@
+
+additional_zones: []
+cluster_ipv4_cidr: ''
+clsuter_secondary_range_name: ''
+cluster_version: 1.9.7-gke.5
+create_subnetwork: {}
+  #key1: value2
+  #key2: value2
+disk_size: 100 # Boot disk size in GB (per node)
+enable_autorepair: True # Automatic node repair
+enable_autoupgrade: False # Automatic node upgrades 
+no_enable_cloud_logging: False # Enables StackDriver logging
+no_enable_cloud_logging: False # Enables StackDriver monitoring
+
+enable_ip_alias
+enable_kubernetes_alpha
+enable_legacy_authorization
+enable_network_policy
+image_type=IMAGE_TYPE
+labels: {}
+  #key1: value2
+  #key2: value2
+local_ssd_count=LOCAL_SSD_COUNT
+machine_type=MACHINE_TYPE
+maintenance_window=MAINTENANCE_WINDOW
+max_nodes_per_pool
+min_cpu_platform=PLATFORM
+network=NETWORK
+node_labels: [] # lable1, label2
+node_locations=ZONE,[ZONE,...]]
+node_taints=[NODE_TAINT,...]]
+node_version=NODE_VERSION
+num_nodes=3
+
+# Affordable, short-lived compute instances suitable for batch jobs and fault-tolerant workloads.
+# See https://cloud.google.com/preemptible-vms/
+preemptible: False
+
+services_ipv4_cidr: ''
+services_secondary_range_name: ''
+subnetwork: ''
+tags: [] # tag1, tag2
+zone: europe-west3-a
+addons:
+	http_load_balancing:
+    disabled: False
+  horizontal_pod_autoscaling:
+    disabled: False
+
+# Autoscaling dynamically creates or deletes nodes. 
+enable_autoscaling: False
+max_nodes: 3
+min_nodes: 3
+
+# Enable master authorised networks to block untrusted non-GCP source IPs from accessing the Kubernetes master through HTTPS.
+enable_master_authorized_networks: False
+master_authorized_networks: [] 
+  # - cidr: 10.20.30.0/24
+  #   name: optional
+
+# Accessing the master endpoint
+ no_enable_basic_auth: False
+ username: admin
+ password: ''
+
+# Project access
+no_enable_cloud_endpoints: False
+service_account: ''
+scopes: 
+  - gke-default

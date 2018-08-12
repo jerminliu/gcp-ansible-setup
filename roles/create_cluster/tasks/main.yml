@@ -1,0 +1,4 @@
+---
+- name: crete gcp cluster
+  gcp_container_cluster_module:
+    

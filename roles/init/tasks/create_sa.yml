@@ -1,8 +1,0 @@
----
-- set_fact:
-    service_account: "{{ project_id }}-sa"
-
-- name: create service account
-  command: >
-    gcloud iam service-accounts create {{ service_account }} --display-name={{ service_account }}
-  register: command_result

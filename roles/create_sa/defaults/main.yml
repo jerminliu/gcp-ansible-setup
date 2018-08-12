@@ -1,0 +1,2 @@
+---
+service_account_key_path: "{{ playbook_dir }}/keys/sa.json"

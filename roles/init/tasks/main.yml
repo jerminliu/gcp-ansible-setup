@@ -1,9 +1,0 @@
----
-- include_tasks: init_configuration.yml
-  tags: init
-
-- include_tasks: init_project.yml
-  tags: init
-
-# - include_tasks: get_key_file.yml
-#   tags: init

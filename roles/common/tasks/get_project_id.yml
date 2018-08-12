@@ -1,0 +1,11 @@
+---
+- name: get project_id from active confguration
+  command: gcloud config get-value core/project
+  register: command_result
+
+- fail:
+    msg: "Plese run 'gcloud init' to initialize the project."
+  when: command_result.stderr is search('(unset)')
+
+- set_fact:
+    project_id: "{{ command_result.stdout }}"

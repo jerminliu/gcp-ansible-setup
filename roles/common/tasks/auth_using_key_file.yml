@@ -1,0 +1,13 @@
+---
+- name: check service account key file exists
+  stat:
+    path: "{{ service_account_key_path }}"
+  register: key_file_result
+
+- fail: 
+    msg: "Key file is not found at '{{ service_account_key_path }}'."
+  when: not key_file_result.stat.exists
+
+- name: authorize in Google Cloud
+  command: >
+    gcloud auth activate-service-account --key-file {{ service_account_key_path }}

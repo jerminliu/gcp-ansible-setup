@@ -8,32 +8,25 @@
 * [Ansible](https://docs.ansible.com/ansible/2.5/installation_guide/intro_installation.html) 2.6.1+
 * [Install Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) and log in to your account.
 
+(WSL only) Please run:
+
+```sh
+export export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
+```
+
 ## Log in to Google Cloud
 
-This initial step is required to obtain the service account JSON key file
-for further logins without user interaction.
+This initial steps are required to obtain the service account JSON key file
+for further operations without user interaction.
 
-Please run:
+To make sure credentials are configured and the project property is set, please run:
 
 ```sh
-gcloud auth login
+gcloud init
 ```
 
-to obtain new credentials, or if you have already logged in with a
-different account:
+Create service account and generate the credentials key file:
 
 ```sh
-gcloud config set account ACCOUNT
-```
-
-Initialize a connection to the account which will persist service account JSON key file for further operations.
-
-```sh
-ansible-playbook playbook.yml --tags 'init'
-```
-
-Manage project
-
-```sh
-ansible-playbook playbook.yml --tags 'create_project'
+ansible-playbook create_service_account.yml
 ```
