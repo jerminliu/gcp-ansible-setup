@@ -3,9 +3,6 @@
   connection: local
   gather_facts: False
 
-  vars:
-    service_account_key_path: "{{ playbook_dir }}/keys/sa.json"
-
   pre_tasks:
 
     - include_role:
@@ -19,4 +16,4 @@
   tasks:
 
     - include_role:
-        name: crete_cluster
+        name: create_cluster

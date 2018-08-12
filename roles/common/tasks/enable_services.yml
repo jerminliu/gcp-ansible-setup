@@ -1,0 +1,24 @@
+---
+- name: service to enable
+  debug: var=services
+
+- name: list enabled services
+  command: >
+    gcloud services list --format json
+  register: command_result
+
+- fail:
+    msg: "Enable Service Management API via Google Cloud Console first."
+  when: command_result.rc > 0
+
+- set_fact:
+    enabled_services: "{{ command_result.stdout | from_json | map(attribute='serviceName') | list }}"
+
+- name: enabled services
+  debug: var=enabled_services  
+
+- name: enable additional services
+  command: >
+    gcloud services enable {{ item }}
+  loop: "{{ services }}"
+  when: item not in enabled_services

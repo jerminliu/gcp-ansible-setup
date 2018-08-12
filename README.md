@@ -6,26 +6,29 @@
 * Python 2.7+ or Python 3.5+
 * [pip](https://packaging.python.org/guides/installing-using-linux-tools/#installing-pip-setuptools-wheel-with-linux-package-managers)
 * [Ansible](https://docs.ansible.com/ansible/2.5/installation_guide/intro_installation.html) 2.6.1+
-* [Install Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) and log in to your account.
+* [Install and initialize the Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts)
 
 (WSL only) Please run:
 
 ```sh
-export export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
+export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
 ```
 
-## Log in to Google Cloud
+## Getting started
 
-This initial steps are required to obtain the service account JSON key file
-for further operations without user interaction.
-
-To make sure credentials are configured and the project property is set, please run:
+### Initialize the Cloud SDK
 
 ```sh
-gcloud init
+gloud init
 ```
 
-Create service account and generate the credentials key file:
+### Enable Service Management API
+
+[Enable the API](https://console.cloud.google.com/flows/enableapi?apiid=servicemanagement)
+
+### Get service account key
+
+This initial step is required to obtain the service account JSON key file for further operations without user interaction.
 
 ```sh
 ansible-playbook create_service_account.yml

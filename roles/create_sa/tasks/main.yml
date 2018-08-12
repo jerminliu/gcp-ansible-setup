@@ -24,7 +24,23 @@
   loop:
     - editor
 
+- name: check service account key exists
+  set_fact:
+    credentials: "{{ lookup('file', service_account_key_path) | from_json }}"
+  ignore_errors: True
+
+- set_fact:
+    create_key: True
+  when: credentials is not defined
+
+- set_fact:
+    create_key: False
+  when:
+    - credentials is defined
+    - credentials.client_email == service_account
+
 - name: create service account key
   command: >
     gcloud iam service-accounts keys create {{ service_account_key_path }} \
     --iam-account {{ service_account }}
+  when: create_key
