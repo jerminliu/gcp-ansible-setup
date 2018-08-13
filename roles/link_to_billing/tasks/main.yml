@@ -1,4 +1,0 @@
----
-TODO
-# gcloud beta billing accounts list --format json
-# gcloud beta billing projects link PROJECT --billing-account BILLING_ACCOUNT_ID

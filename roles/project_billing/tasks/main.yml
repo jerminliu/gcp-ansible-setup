@@ -1,0 +1,33 @@
+---
+- name: describe project billing
+  command: >
+    gcloud beta billing projects describe {{ project_id }} --format json
+  register: command_result
+  tags: billing
+
+- set_fact:
+    project_billing: "{{ command_result.stdout | from_json }}"
+  tags: billing
+
+- block:
+
+  - name: list billing accounts
+    command: >
+      gcloud beta billing accounts list
+    register: command_result
+
+  - pause:
+      prompt: "enter billing account id"
+    register: prompt_result
+    when: billing_account_id is not defined
+
+  - set_fact:
+      billing_account_id: "{{ prompt_result.user_input }}"
+    when: billing_account_id is not defined
+
+  - name: link project to billing account
+    command: >
+      gcloud beta billing projects link {{ project_id }} --billing-account {{ billing_account_id }}
+
+  when: project_billing.billingEnabled is not defined
+  tags: billing

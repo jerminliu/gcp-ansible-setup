@@ -28,6 +28,6 @@
       - key
 
   - include_role:
-      name: link_to_billing
+      name: project_billing
     tags:
       - billing
