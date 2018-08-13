@@ -1,0 +1,33 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: False
+
+  pre_tasks:
+
+    - include_role: 
+        name: common
+        tasks_from: ensure_user_configuration
+      tags:
+        - always
+
+  tasks:
+
+  - include_role:
+      name: common
+      tasks_from: enable_services
+    vars:
+      services:
+        - iam.googleapis.com
+    tags:
+      - key
+
+  - include_role:
+      name: create_sa
+    tags:
+      - key
+
+  - include_role:
+      name: link_to_billing
+    tags:
+      - billing

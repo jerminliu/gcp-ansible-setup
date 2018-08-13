@@ -24,12 +24,17 @@ gloud init
 
 ### Enable Service Management API
 
-[Enable the API](https://console.cloud.google.com/flows/enableapi?apiid=servicemanagement)
+[ENABLE THE API](https://console.cloud.google.com/flows/enableapi?apiid=servicemanagement)
 
 ### Get service account key
 
 This initial step is required to obtain the service account JSON key file for further operations without user interaction.
 
 ```sh
-ansible-playbook create_service_account.yml
+ansible-playbook init.yml
 ```
+
+Optionally, accepts tags (e.g. `--tags='key'`):
+
+* **key** to generate service account key only
+* **billing** to link project to billing account
