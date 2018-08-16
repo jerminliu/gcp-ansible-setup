@@ -40,3 +40,11 @@ Optionally, accepts tags (e.g. `--tags='key'`):
 
 * **key** to generate service account key only
 * **billing** to link project to billing account
+* **userdata** to generate config file with required parameters that should be edited prior to creating the resources (`userdata.yml` is ignored in source control)
+
+
+## Create GKE
+
+```sh
+ansible-playbook create_cluster.yml -e @userdata.yml
+```

@@ -1,17 +1,15 @@
 ---
-- hosts: 127.0.0.1
+- hosts: localhost
   connection: local
   gather_facts: False
 
-  pre_tasks:
-
-    - include_role: 
-        name: common
-        tasks_from: ensure_user_configuration
-      tags:
-        - always
-
   tasks:
+
+  - include_role: 
+      name: common
+      tasks_from: ensure_user_configuration
+    tags:
+      - always
 
   - include_role:
       name: common
@@ -31,3 +29,8 @@
       name: project_billing
     tags:
       - billing
+
+  - include_role:
+      name: generate_userdata
+    tags:
+      - userdata

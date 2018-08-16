@@ -1,19 +1,19 @@
 ---
-- hosts: 127.0.0.1
+- hosts: localhost
   connection: local
   gather_facts: False
 
   pre_tasks:
 
-    - include_role:
-        name: common
-        tasks_from: auth_using_key_file
-    
     - pip:
         requirements: "{{ playbook_dir }}/requirements.txt"
         extra_args: --user
 
   tasks:
+
+    - include_role:
+        name: common
+        tasks_from: auth_using_key_file
 
     - include_role:
         name: create_cluster

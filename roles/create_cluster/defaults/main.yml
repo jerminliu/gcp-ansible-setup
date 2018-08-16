@@ -1,35 +1,35 @@
-additional_zones: []
+#additional_zones: []
 cluster_ipv4_cidr: '10.0.0.0/14'
-cluster_secondary_range_name: ''
-cluster_version: 1.9.7-gke.5
-create_subnetwork: 
-  name: ''
-  range: ''
+#cluster_secondary_range_name: ''
+#cluster_version: 1.9.7-gke.5
+# create_subnetwork: 
+#   name: ''
+#   range: ''
 disk_size: 100
 enable_autorepair: True
 enable_autoupgrade: False
 enable_cloud_logging: True
-enable_cloud_logging: True
-enable_ip_alias: False
-enable_kubernetes_alpha: False
-enable_legacy_authorization: False
-enable_network_policy: False
+enable_cloud_monitoring: True
+# enable_ip_alias: False
+# enable_kubernetes_alpha: False
+# enable_legacy_authorization: False
+# enable_network_policy: False
 image_type: cos
 labels: {}
 local_ssd_count: 0
 machine_type: n1-standard-1
-maintenance-window: ''
-max_nodes_per_pool: 1000
-min_cpu_platform: ''
+maintenance_window: ''
+#max_nodes_per_pool: 1000
+#min_cpu_platform: ''
 network: default
 node_labels: {}
 node_locations: []
-node_taints: []
-node_version: ''
+#node_taints: []
+#node_version: ''
 num_nodes: 3
 preemptible: False
-services_ipv4_cidr: ''
-services_secondary_range_name: ''
+#services_ipv4_cidr: ''
+#services_secondary_range_name: ''
 subnetwork: ''
 tags: []
 zone: us-central-1a
@@ -42,23 +42,21 @@ addons:
   kubernetes_dashboard:
     enable: False
 
-cluster_autoscalling:
-  enable_autoscaling: False
+node_pool_autoscalling:
+  enable: False
   max_nodes: 3
   min_nodes: 3
 
-master_authorized_networks:
-  enable: False
-  networks: [] 
+# master_authorized_networks:
+#   enable: False
+#   networks: [] 
 
 basic_auth:
   enable: True
   username: admin
   password: ''
 
-service_account: ''
+node_service_account: ''
 
-scopes_options:
-  enable_cloud_endpoints: True
-  scopes: 
-    - gke-default
+scopes:
+  - gke-default
