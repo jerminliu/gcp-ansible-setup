@@ -42,10 +42,10 @@ addons:
   kubernetes_dashboard:
     enable: False
 
-node_pool_autoscalling:
-  enable: False
-  max_nodes: 3
-  min_nodes: 3
+# node_pool_autoscalling:
+#   enable: False
+#   max_nodes: 3
+#   min_nodes: 3
 
 # master_authorized_networks:
 #   enable: False
@@ -58,5 +58,9 @@ basic_auth:
 
 node_service_account: ''
 
+node_scopes:
+  - https://www.googleapis.com/auth/compute
+  - https://www.googleapis.com/auth/devstorage.read_only
+
 scopes:
-  - gke-default
+  - https://www.googleapis.com/auth/cloud-platform

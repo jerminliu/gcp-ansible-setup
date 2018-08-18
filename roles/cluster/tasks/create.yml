@@ -10,7 +10,7 @@
       horizontal_pod_autoscaling:
         disabled: "{{ not addons.horizontal_pod_autoscaling.enable }}"
     cluster_ipv4_cidr: "{{ cluster_ipv4_cidr }}"
-    description: "{{ cluster_description | default(omit) }}"
+    description: "{{ cluster_description | default(omit, true) }}"
     initial_node_count: "{{ num_nodes }}"
     location: "{{ node_locations | default(omit, true) }}"
     logging_service: "{{ 'logging.googleapis.com' if enable_cloud_logging else 'none' }}"
@@ -18,6 +18,17 @@
     master_auth:
       username: "{{ basic_auth.username if basic_auth.enable else omit }}" 
       password: "{{ basic_auth.password if basic_auth.enable else omit }}"
+    node_config:
+      disk_size_gb: "{{ disk_size }}"
+      service_account: "{{ service_account }}"
+      tags: "{{ tags }}"
+      image_type: "{{ image_type }}"
+      preemptible: "{{ preemptible }}"
+      labels: "{{ labels }}"
+      local_ssd_count: "{{ local_ssd_count }}"
+      oauth_scopes: "{{ node_scopes | default(omit) }}"
+      machine_type: "{{ machine_type }}"
+      metadata: "{{ node_labels }}"
     network: "{{ network }}"
     project: "{{ project_id }}"
     scopes: "{{ scopes }}"
@@ -26,34 +37,15 @@
     state: "present"
   register: cluster
 
--  name: create a node pool
-   gcp_container_node_pool:
-      name: "{{ node_pool_name | default(cluster_name + '-node-pool')}}"
-      auth_kind: serviceaccount
-      service_account_file: "{{ service_account_key_path }}"
-      autoscaling:
-        enabled: "{{ node_pool_autoscalling.enable }}"
-        min_node_count: "{{ node_pool_autoscalling.min_nodes if node_pool_autoscalling.enable else omit }}"
-        max_node_count: "{{ node_pool_autoscalling.max_nodes if node_pool_autoscalling.enable else omit }}"
-      cluster: "{{ cluster }}"
-      config:
-        disk_size_gb: "{{ disk_size }}"
-        service_account: "{{ service_account }}"
-        tags: "{{ tags }}"
-        image_type: "{{ image_type }}"
-        preemptible: "{{ preemptible }}"
-        labels: "{{ labels }}"
-        local_ssd_count: "{{ local_ssd_count }}"
-        # oauth_scopes: ?
-        machine_type: "{{ machine_type }}"
-        metadata: "{{ node_labels }}"
-      initial_node_count: "{{ num_nodes }}"
-      management:
-        auto_upgrade: "{{ enable_autoupgrade }}"
-        auto_repair: "{{ enable_autorepair }}"
-        upgrade_options:
-          auto_upgrade_start_time: "{{ maintenance_window | default(omit, true) }}"
-      project: "{{ project_id }}"
-      scopes: "{{ scopes }}"
-      zone: "{{ zone }}"
-      state: "present"
+
+# NOT YET IMPLEMENTED
+# autoscaling:
+#   enabled: "{{ node_pool_autoscalling.enable }}"
+#   min_node_count: "{{ node_pool_autoscalling.min_nodes if node_pool_autoscalling.enable else omit }}"
+#   max_node_count: "{{ node_pool_autoscalling.max_nodes if node_pool_autoscalling.enable else omit }}"
+# management:
+#   auto_upgrade: "{{ enable_autoupgrade }}"
+#   auto_repair: "{{ enable_autorepair }}"
+#   upgrade_options:
+#     auto_upgrade_start_time: "{{ maintenance_window | default(omit, true) }}"
+
