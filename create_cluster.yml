@@ -1,19 +1,31 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: False
-
-  pre_tasks:
-
-    - pip:
-        requirements: "{{ playbook_dir }}/requirements.txt"
-        extra_args: --user
+  gather_facts: no
 
   tasks:
 
     - include_role:
         name: common
         tasks_from: auth_using_key_file
+
+    - include_role:
+        name: common
+        tasks_from: enable_services
+      vars:
+        services:
+            - compute.googleapis.com
+            - container.googleapis.com
+
+    - include_role:
+        name: common
+        tasks_from: create_sa
+      vars:
+        service_account_name: "{{ node_service_account }}"
+        service_account_roles:
+            - logging.logWriter
+            - monitoring.metricWriter
+            - storage.objectViewer
 
     - include_role:
         name: create_cluster

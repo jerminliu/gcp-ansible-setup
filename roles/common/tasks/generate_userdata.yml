@@ -1,4 +1,5 @@
 ---
 - template:
     src: templates/userdata.yml.j2
-    dest: ../../userdata.yml
+    dest: "{{ playbook_dir }}/userdata.yml"
+  tags: userdata

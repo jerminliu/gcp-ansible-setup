@@ -23,7 +23,7 @@ maintenance_window: ''
 #min_cpu_platform: ''
 network: default
 node_labels: {}
-node_locations: []
+node_locations:
 #node_taints: []
 #node_version: ''
 num_nodes: 3

@@ -2,17 +2,17 @@
 - name: crete a cluster
   gcp_container_cluster:
     name: "{{ cluster_name }}"
-    auth_kind: service_account
+    auth_kind: serviceaccount
     service_account_file: "{{ service_account_key_path }}"
     addons_config:
       http_load_balancing: 
-        disaled: "{{ not addons.http_load_balancing.enable }}"
+        disabled: "{{ not addons.http_load_balancing.enable }}"
       horizontal_pod_autoscaling:
-        disaled: "{{ not addons.horizontal_pod_autoscaling.enable }}"
+        disabled: "{{ not addons.horizontal_pod_autoscaling.enable }}"
     cluster_ipv4_cidr: "{{ cluster_ipv4_cidr }}"
     description: "{{ cluster_description | default(omit) }}"
     initial_node_count: "{{ num_nodes }}"
-    location: "{{ node_locations }}"
+    location: "{{ node_locations | default(omit, true) }}"
     logging_service: "{{ 'logging.googleapis.com' if enable_cloud_logging else 'none' }}"
     monitoring_service: "{{ 'monitoring.googleapis.com' if enable_cloud_monitoring else 'none' }}"
     master_auth:
@@ -29,16 +29,16 @@
 -  name: create a node pool
    gcp_container_node_pool:
       name: "{{ node_pool_name | default(cluster_name + '-node-pool')}}"
-      auth_kind: service_account
+      auth_kind: serviceaccount
       service_account_file: "{{ service_account_key_path }}"
       autoscaling:
         enabled: "{{ node_pool_autoscalling.enable }}"
-        min_node_count: "{{ node_pool_autoscalling.min_nodes }}"
-        max_node_count: "{{ node_pool_autoscalling.max_nodes }}"
+        min_node_count: "{{ node_pool_autoscalling.min_nodes if node_pool_autoscalling.enable else omit }}"
+        max_node_count: "{{ node_pool_autoscalling.max_nodes if node_pool_autoscalling.enable else omit }}"
       cluster: "{{ cluster }}"
       config:
         disk_size_gb: "{{ disk_size }}"
-        service_account: "{{ node_service_account }}"
+        service_account: "{{ service_account }}"
         tags: "{{ tags }}"
         image_type: "{{ image_type }}"
         preemptible: "{{ preemptible }}"
@@ -55,4 +55,5 @@
           auto_upgrade_start_time: "{{ maintenance_window | default(omit, true) }}"
       project: "{{ project_id }}"
       scopes: "{{ scopes }}"
+      zone: "{{ zone }}"
       state: "present"

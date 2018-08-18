@@ -11,18 +11,26 @@
     tags:
       - always
 
-  - include_role:
-      name: common
-      tasks_from: enable_services
-    vars:
-      services:
-        - iam.googleapis.com
-    tags:
-      - key
+  - block:
+      - include_role:
+          name: common
+          tasks_from: enable_services
+        vars:
+          services:
+            - iam.googleapis.com
 
-  - include_role:
-      name: create_sa
-    tags:
+      - include_role:
+          name: common
+          tasks_from: create_sa
+        vars:
+          service_account_roles: 
+            - editor
+            - resourcemanager.projectIamAdmin
+
+      - include_role:
+          name: common
+          tasks_from: create_sa_key
+    tags: 
       - key
 
   - include_role:
@@ -31,6 +39,7 @@
       - billing
 
   - include_role:
-      name: generate_userdata
+      name: common
+      tasks_from: generate_userdata
     tags:
       - userdata

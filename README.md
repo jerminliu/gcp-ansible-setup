@@ -16,7 +16,13 @@ export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
 
 ## Getting started
 
-### 1. Initialize the Cloud SDK
+### 1. Install Python dependencies
+
+```sh
+sudo pip install -r requirements
+```
+
+### 2. Initialize the Cloud SDK
 
 To authenticate and create new or select existing project, please run:
 
@@ -24,11 +30,11 @@ To authenticate and create new or select existing project, please run:
 gloud init
 ```
 
-### 2. Enable Service Management API
+### 3. Enable Service Management API
 
 Once per project [Enable the API](https://console.cloud.google.com/flows/enableapi?apiid=servicemanagement)
 
-### 3. Initialize project
+### 4. Initialize project
 
 This initial step are required to obtain the service account JSON key file for further operations without user interaction. Also it ensures the configured project is linked to billing account so other services will be available.
 

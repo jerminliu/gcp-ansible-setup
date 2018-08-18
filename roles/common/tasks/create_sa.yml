@@ -1,0 +1,31 @@
+---
+- set_fact:
+    service_account_name: "automation-sa"
+  when: service_account_name is not defined
+  tags: always
+
+- set_fact:
+    service_account: "{{ service_account_name }}@{{ project_id }}.iam.gserviceaccount.com"
+  tags: always
+
+- name: check service account exists
+  command: >
+    gcloud iam service-accounts describe {{ service_account }}
+  register: describe_result
+  ignore_errors: true
+  tags: always
+
+- name: create service account
+  command: >
+    gcloud iam service-accounts create {{ service_account_name }} \
+    --display-name={{ service_account_name }}
+  when: describe_result.rc > 0
+  tags: always
+
+- name: grant roles
+  command: >
+    gcloud projects add-iam-policy-binding {{ project_id }} \
+    --member serviceAccount:{{ service_account }} \
+    --role=roles/{{ item }}
+  loop: "{{ service_account_roles }}"
+  tags: always

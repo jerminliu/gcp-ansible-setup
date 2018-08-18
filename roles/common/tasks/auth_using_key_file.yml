@@ -3,16 +3,23 @@
   set_fact:
     credentials: "{{ lookup('file', service_account_key_path) | from_json }}"
 
+- set_fact:
+    project_id: "{{ credentials.project_id }}"
+
 - name: activate servie account configuration
   command: >
-    gcloud config configurations activate {{ credentials.project_id }}-sa
+    gcloud config configurations activate {{ project_id }}-sa
   register: activate_command_result
   ignore_errors: True
 
 - name: create new service account configuration
   command: >
-    gcloud config configurations create {{ credentials.project_id }}-sa
+    gcloud config configurations create {{ project_id }}-sa
   when: activate_command_result.rc > 0
+
+- name: set project id
+  command: >
+    gcloud config set project {{ project_id }}
 
 - name: authorize in Google Cloud
   command: >

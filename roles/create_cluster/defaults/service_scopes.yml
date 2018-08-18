@@ -1,0 +1,23 @@
+---
+bigquery:              https://www.googleapis.com/auth/bigquery
+cloud-platform:        https://www.googleapis.com/auth/cloud-platform
+cloud-source-repos-ro: https://www.googleapis.com/auth/source.read_only
+cloud-source-repos:    https://www.googleapis.com/auth/source.full_control
+compute-ro:            https://www.googleapis.com/auth/compute.readonly
+compute-rw:            https://www.googleapis.com/auth/compute
+datastore:             https://www.googleapis.com/auth/datastore
+logging-write:         https://www.googleapis.com/auth/logging.write
+monitoring-write:      https://www.googleapis.com/auth/monitoring.write
+monitoring:            https://www.googleapis.com/auth/monitoring
+pubsub:                https://www.googleapis.com/auth/pubsub
+service-control:       https://www.googleapis.com/auth/servicecontrol
+service-management:    https://www.googleapis.com/auth/service.management.readonly
+sql-admin:             https://www.googleapis.com/auth/sqlservice.admin
+sql:                   https://www.googleapis.com/auth/sqlservice
+storage-full:          https://www.googleapis.com/auth/devstorage.full_control
+storage-ro:            https://www.googleapis.com/auth/devstorage.read_only
+storage-rw:            https://www.googleapis.com/auth/devstorage.read_write
+taskqueue:             https://www.googleapis.com/auth/taskqueue
+useraccounts-ro:       https://www.googleapis.com/auth/cloud.useraccounts.readonly
+useraccounts-rw:       https://www.googleapis.com/auth/cloud.useraccounts
+userinfo-email:        https://www.googleapis.com/auth/userinfo.email
