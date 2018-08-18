@@ -20,26 +20,21 @@
             - iam.googleapis.com
 
       - include_role:
-          name: common
-          tasks_from: create_sa
+          name: service_account
+          tasks_from: create
         vars:
           service_account_roles: 
             - editor
             - resourcemanager.projectIamAdmin
 
       - include_role:
-          name: common
-          tasks_from: create_sa_key
+          name: service_account
+          tasks_from: create_key
     tags: 
       - key
 
   - include_role:
-      name: project_billing
+      name: project
+      tasks_from: billing
     tags:
       - billing
-
-  - include_role:
-      name: common
-      tasks_from: generate_userdata
-    tags:
-      - userdata

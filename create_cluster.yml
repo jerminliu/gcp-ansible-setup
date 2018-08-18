@@ -6,6 +6,13 @@
   tasks:
 
     - include_role:
+        name: cluster
+        tasks_from: sample_userdata
+      tags:
+        - never
+        - sample
+
+    - include_role:
         name: common
         tasks_from: auth_using_key_file
 
@@ -14,12 +21,13 @@
         tasks_from: enable_services
       vars:
         services:
+            - cloudresourcemanager.googleapis.com
             - compute.googleapis.com
             - container.googleapis.com
 
     - include_role:
-        name: common
-        tasks_from: create_sa
+        name: service_account
+        tasks_from: create
       vars:
         service_account_name: "{{ node_service_account }}"
         service_account_roles:
@@ -28,4 +36,5 @@
             - storage.objectViewer
 
     - include_role:
-        name: create_cluster
+        name: cluster
+        tasks_from: create

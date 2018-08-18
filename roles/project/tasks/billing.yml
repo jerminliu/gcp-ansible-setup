@@ -13,8 +13,10 @@
 
   - name: list billing accounts
     command: >
-      gcloud beta billing accounts list
+      gcloud beta billing accounts list --format json
     register: command_result
+
+  - debug: var=command_result.stdout 
 
   - pause:
       prompt: "enter billing account id"

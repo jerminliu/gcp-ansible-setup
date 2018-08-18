@@ -7,7 +7,6 @@
 
 - set_fact:
     create_key: True
-  when: credentials is not defined
   tags: always
 
 - set_fact:

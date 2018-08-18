@@ -1,0 +1,9 @@
+---
+- template:
+    src: templates/userdata.yml.j2
+    dest: "{{ playbook_dir }}/userdata.yml"
+  tags: always
+
+- debug:
+    msg: "Please review sample user data located at {{ playbook_dir }}/userdata.yml"
+  tags: always
